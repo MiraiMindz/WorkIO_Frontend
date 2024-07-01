@@ -1,22 +1,22 @@
 import { ChannelCredentials, Client } from "@grpc/grpc-js";
-import { Test } from "@/lib/gRPC/Test";
+import { Authentication } from "@/lib/gRPC/Authenticate";
 import { promisify } from "util";
-import { TestClient } from "@/proto/generated/test/Test";
+import { AuthenticationClient } from "@/proto/generated/authentication/Authentication";
 
 const getGrpcClient = () => {
     if (process.env.GRPC_SERVER_HOST_NAME === undefined) {
         throw new Error("GRPC_SERVER_HOST_NAME is not set");
     }
 
-    return new Test(
+    return new Authentication(
         `${process.env.GRPC_SERVER_HOST_NAME}:50051`,
         ChannelCredentials.createInsecure()
     );
 };
 
-const testFunc = promisify(
-    (client: TestClient, request: { message: string }, callback: (error: Error | null, response: any) => void) => {
-        client.TestFunc(request, callback);
+const authFunc = promisify(
+    (client: AuthenticationClient, request: { email: string, password: string}, callback: (error: Error | null, response: any) => void) => {
+        client.AuthenticateLogin(request, callback);
     }
 );
 
@@ -25,9 +25,10 @@ export async function POST(request: Request) {
         const client = getGrpcClient();
 
         const body = await request.json();
-        const message = body.message;
+        const email = body.email;
+        const password = body.password;
 
-        const response = await testFunc(client, { message });
+        const response = await authFunc(client, { email, password });
 
         return new Response(JSON.stringify(response), {
             status: 200,

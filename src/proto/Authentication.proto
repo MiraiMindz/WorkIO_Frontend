@@ -1,0 +1,23 @@
+syntax = "proto3";
+package authentication;
+option go_package = "proto/out";
+
+service Authentication {
+    rpc AuthenticateLogin (Login) returns (Token);
+    rpc AuthenticateSignUp (SignUp) returns (Token);
+}
+
+message Login {
+    string email = 1;
+    string password = 2;
+}
+
+message SignUp {
+    string email = 1;
+    string password = 2;
+    string name = 3;
+}
+
+message Token {
+    string token = 1;
+}

@@ -26,8 +26,9 @@ export default function RootLayout({
                     attribute="class"
                     defaultTheme="system"
                     enableSystem
+                    disableTransitionOnChange={false}
                 >
-                    <div className="w-full h-full bg-gradient-to-tr from-slate-50 to-slate-300 dark:from-slate-900 dark:to-slate-700">
+                    <div className="w-full h-full bg-gradient-to-tr from-slate-50 to-slate-300 dark:from-slate-900 dark:to-slate-700 transition-all">
                         {children}
                     </div>
                 </ThemeProvider>

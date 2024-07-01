@@ -29,3 +29,28 @@ export function Base64Encode(data: string): string {
     const encoded: string = forge.util.encode64(data);
     return encoded;
 }
+
+
+export function DecryptFromEncryptTo(privateKey: forge.pki.rsa.PrivateKey, publicKey: forge.pki.rsa.PublicKey, data: string): string {
+    const decryptedData: string = Decrypt(privateKey, data)
+    const encryptedData: string = Encrypt(publicKey, decryptedData)
+    return encryptedData
+}
+
+export function DecodeDecrypt(privateKey: forge.pki.rsa.PrivateKey, data: string): string {
+    const decodedData: string = Base64Decode(data)
+    const decryptedData: string = Decrypt(privateKey, decodedData)
+    return decryptedData
+}
+
+export function EncryptEncode(publicKey: forge.pki.rsa.PublicKey, data: string): string {
+    const encryptedData: string = Encrypt(publicKey, data)
+    const encodedData: string = Base64Encode(encryptedData)
+    return encodedData
+}
+
+export function DecodeDecryptFromEncryptEncodeTo(privateKey: forge.pki.rsa.PrivateKey, publicKey: forge.pki.rsa.PublicKey, data: string): string {
+    const decryptedDecodedData: string = DecodeDecrypt(privateKey, data)
+    const encryptedEncodedData: string = EncryptEncode(publicKey, decryptedDecodedData)
+    return encryptedEncodedData
+}
