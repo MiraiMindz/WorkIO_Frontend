@@ -15,7 +15,8 @@ message Login {
 message SignUp {
     string email = 1;
     string password = 2;
-    string name = 3;
+    string firstName = 3;
+    string lastName = 4;
 }
 
 message Token {
